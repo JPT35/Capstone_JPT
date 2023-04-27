@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Clients{% endblock %}
+
+{% block content %}
+    <div class = "py-6 px-6">
+        <h1 class ="mb-4 text-xl">Clients</h1>
+
+        <a href="{% url 'clients:add' %}" class="inline-block py-4 px-6 bg-teal-600 rounded-xl text-white">Add client</a>
+        <a href="{% url 'clients:export' %}" class="inline-block py-4 px-6 rounded-xl bg-green-400 text-white">Export clients list</a>
+        <a href="{% url 'clients:report' %}" class="inline-block mb-4 py-4 px-6 bg-red-400 rounded-xl text-white">Generate Report</a>
+
+        <dl class="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt class="text-sm font-medium leading-6 text-gray-500">Total Clients</dt>
+              <dd class="text-xs font-medium text-gray-700">{{ active_team.clients.all|length }}</dd>
+              <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">{{ active_team.clients.all|length }}</dd>
+            </div>
+          
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt class="text-sm font-medium leading-6 text-gray-500">Total Monthly Orders</dt>
+              <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">{{ total_monthly_order }}</dd>
+            </div>
+          
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt class="text-sm font-medium leading-6 text-gray-500">Total Revenue</dt>
+              <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">${{ total_order_value }}</dd>
+            </div>
+ 
+
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt class="text-sm font-medium leading-6 text-gray-500">Expenses</dt>
+              <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900"></dd>
+            </div>
+          </dl>
+          {% if clients %}
+          <div class="mt-6 flex justify-between">
+              <div class="w-1/2">
+                  <p class="py-4 px-2 bg-orange-200 font-semibold w-full">Name</p>
+                  {% for client in clients %}
+                      <div class="flex justify-between">  
+                          <p class="py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">
+                              <a href="{% url 'clients:detail' client.id %}">{{ client.name }}</a>
+                          </p>
+                      </div>
+                  {% endfor %}
+              </div>
+              <div class="w-1/2">
+                  <p class="py-4 px-2 bg-orange-200 font-semibold w-full">Organization</p>
+                  {% for client in clients %}
+                      <div class="flex justify-between">  
+                          <p class="py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ client.org_name }}</p>
+                      </div>
+                  {% endfor %}
+              </div>
+          </div>
+   
+    {% else %}
+        <p class="px-2">No clients in databse</p>
+    {% endif %}
+    </div>
+{% endblock %}    

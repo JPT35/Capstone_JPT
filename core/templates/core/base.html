@@ -1,0 +1,43 @@
+{% load static %}
+
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="{% static 'main.min.css' %}">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+        {% include 'core/partials/nav.html' %}
+
+                {% if request.user.is_authenticated %}
+                <div class="p-4 text-center bg-stone-800">
+                        <a href="{% url 'team:detail' active_team.id %}" class="block py-4 px-6 bg-emerald-400 text-black rounded-xl">Team: {{ active_team.name }}</a>
+                </div>
+                {% endif %}
+       
+        {% if messages %}
+            <div class="py-6 px-6">
+                {% for message in messages %}  
+                    
+                    
+                        <div class="py-4 px-4 bg-red-300 text-white rounded-xl">
+            
+                        {{ message }}
+    
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+
+        {% include 'core/partials/footer.html' %}
+    </body>
+</html>

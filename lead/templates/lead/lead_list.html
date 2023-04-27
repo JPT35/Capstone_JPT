@@ -1,0 +1,57 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Leads{% endblock %}
+
+{% block content %}
+    <div class = "py-6 px-6">
+        <h1 class ="mb-4 text-xl">Leads</h1>
+
+        <a href="{% url 'leads:add' %}" class="inline-block py-4 px-6 bg-teal-600 rounded-xl text-white">Add Lead</a>
+        <a href="{% url 'leads:export' %}" class="inline-block py-4 px-6 rounded-xl bg-green-400 text-white">Export leads</a>
+
+        <dl class="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt class="text-sm font-medium leading-6 text-gray-500">Total Leads</dt>
+              <dd class="text-xs font-medium text-gray-700">{{ active_team.leads.all|length }}</dd>
+              <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">{{ active_team.leads.all|length }}</dd>
+            </div>
+          
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt class="text-sm font-medium leading-6 text-gray-500">Converted Leads</dt>
+              <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">{{ active_team.converted_leads }}</dd>
+            </div>
+          
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt class="text-sm font-medium leading-6 text-gray-500">New Leads</dt>
+              <dd class="text-xs font-medium text-gray-700">(pending contact)</dd>
+              <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">{{ uncontacted_leads_count }}</dd>
+            </div>
+          
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
+              <dt class="text-sm font-medium leading-6 text-gray-500">High Priority Leads</dt>
+              <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">{{ high_priority_leads_count }}</dd>
+            </div>
+          </dl>
+          
+
+    {% if object_list %}
+        <div class="mt-6 flex justify-between">
+            <p class="py-4 px-2 bg-orange-200 font-semibold w-full">Name</p>
+            <p class="py-4 px-2 bg-orange-200 font-semibold w-full">Priority</p>
+            <p class="py-4 px-2 bg-orange-200 font-semibold w-full">Status</p>
+        </div>
+
+        {% for lead in object_list %}
+            <div class="flex justify-between">  
+                <p class="py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">
+                    <a href="{%url 'leads:detail' lead.id %}">{{ lead.name }}</a>
+                </p>
+                <p class="py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ lead.get_priority_display }}</p>
+                <p class="py-2 px-2 w-full {% cycle 'bg-gray-100' '' %}">{{ lead.get_status_display }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="px-2">No leads in databse</p>
+    {% endif %}
+    </div>
+{% endblock %}    

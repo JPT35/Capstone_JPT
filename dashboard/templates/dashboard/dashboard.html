@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="py-6 px-6">
+    <h1 class ="text-xl">Dashboard</h1>
+
+    <div class="mb-6 flex space-x-6">
+        <div class = "w-1/2 px-4 py-6 bg-stone-300 rounded-xl leads">
+            <h2 class="mb-4 text-lg">Newest Leads:</h2>
+
+            {% for lead in leads %}
+            <div class="mb-2 lead flex items-center justify-between">
+                <h3 class="font-semibold">{{ lead.name }}</h3>
+
+                <p class="text-xs">Status: {{ lead.get_status_display }}</p>
+                <p class="text-xs">Priority: {{ lead.get_priority_display }}</p>
+
+                <a href ="{% url 'leads:detail' lead.pk %}"class="py-4 px-6 bg-emerald-700 rounded-full text-white">Details</a>
+            </div>
+            {% endfor %}
+        </div>
+    <div class="w-1/2 px-4 py-6 bg-stone-300 rounded-xl clients">
+            <h2 class="mb-6 text-lg">Newest Clients:</h2>
+
+            {% for client in clients %}
+            <div class="mb-2 client flex items-center justify-between">
+                <h3 class="font-semibold">{{ client.org_name }}</h3>
+
+                <a href ="{% url 'clients:detail' client.pk %}" class="py-4 px-6 bg-emerald-700 rounded-full text-white">Details</a>
+            </div>
+            {% endfor %}
+    </div>
+</div>
+{% endblock %}  
